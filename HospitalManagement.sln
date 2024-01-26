@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagement", "Hospi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospotalManagement.Generic", "HospotalManagement.Generic\HospotalManagement.Generic.csproj", "{C6259A04-8DDB-4999-9556-8221D3045D1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalManagement.Core", "HospitalManagement.Core\HospitalManagement.Core.csproj", "{4B5E16E1-9734-43DD-A02C-231EDC3FB094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagement.Core", "HospitalManagement.Core\HospitalManagement.Core.csproj", "{4B5E16E1-9734-43DD-A02C-231EDC3FB094}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AEC96D89-E52C-4030-AF33-0706647223E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AEC96D89-E52C-4030-AF33-0706647223E0}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "hospitalmanagementdb", "hospitalmanagementdb\hospitalmanagementdb.sqlproj", "{A42BD54E-AA63-4B68-B882-34C982D576ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{AEC96D89-E52C-4030-AF33-0706647223E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC96D89-E52C-4030-AF33-0706647223E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC96D89-E52C-4030-AF33-0706647223E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42BD54E-AA63-4B68-B882-34C982D576ED}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
