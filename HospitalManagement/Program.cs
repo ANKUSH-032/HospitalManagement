@@ -21,13 +21,14 @@ builder.Services.AddControllers(config =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy",
-    options =>
-    {
-        options.WithOrigins(builder.Configuration.GetSection("APICallerURL").Get<string>()).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-    });
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
 });
-
 #region
 var secretKey = builder.Configuration.GetSection("AppSettings:Secret").Value;
 var key = Encoding.ASCII.GetBytes(secretKey);
@@ -116,5 +117,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("AllowAllOrigins");
 app.Run();

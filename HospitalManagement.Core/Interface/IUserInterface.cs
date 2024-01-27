@@ -11,5 +11,6 @@ namespace HospitalManagement.Core.Interface
     public interface IUserInterface
     {
         Task<Responce> UserInsert(UserInsert userInsert);
+        Task<ClsResponse<User>> UserList(JqueryDataTable jqueryDataTable);
     }
 }

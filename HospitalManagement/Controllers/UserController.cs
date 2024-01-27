@@ -19,13 +19,13 @@ namespace HospitalManagement.Controllers
         {
             _userRepository = userRepository;
             _configuration = configuration;
-            
+
         }
         [HttpPost, Route("insert")]
         public async Task<IActionResult> UserInsert([FromBody] UserInsert userInsert)
         {
 
-            
+
             try
             {
                 Authenticates.CreatePasswordHash(userInsert.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -38,7 +38,20 @@ namespace HospitalManagement.Controllers
             }
             catch (Exception ex)
             {
-               
+
+                return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
+            }
+        }
+        [HttpPost,Route("list")]
+        public async Task<IActionResult> UserList([FromBody] JqueryDataTable userList)
+        {
+            try
+            {
+                var res = await _userRepository.UserList(userList);
+                return res.Status ? StatusCode(StatusCodes.Status200OK, res) : StatusCode(StatusCodes.Status500InternalServerError, res);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
             }
         }

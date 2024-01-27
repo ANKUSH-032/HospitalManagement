@@ -62,5 +62,29 @@ namespace Infrastructure.Repositories
             }
             return response;
         }
+
+        public async Task<ClsResponse<User>> UserList(JqueryDataTable jqueryDataTable)
+        {
+            ClsResponse<User> responce = new();
+            using (IDbConnection db = Connection)
+            {
+                var result = await db.QueryMultipleAsync("[dbo].[uspUserGetList]",new
+                {
+                    jqueryDataTable.Start,
+                    jqueryDataTable.SortCol,
+                    jqueryDataTable.PageSize,
+                    jqueryDataTable.SearchKey
+                },commandType: CommandType.StoredProcedure);
+
+                responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+                if (responce.Status)
+                {
+                    responce.Data = result.Read<User>().ToList();
+                    responce.TotalRecords = result.Read<int>().FirstOrDefault();
+                }
+                return responce;
+            }
+
+        }
     }
 }
