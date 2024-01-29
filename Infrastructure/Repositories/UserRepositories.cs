@@ -19,15 +19,15 @@ namespace Infrastructure.Repositories
     public class UserRepositories : IUserInterface
     {
         private static string _con = string.Empty;
-        private static IConfigurationRoot _iconfiguration;
+        private static IConfigurationRoot? _iconfiguration;
         public UserRepositories()
         {
-           
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                  .AddJsonFile("appsettings.json");
             _iconfiguration = builder.Build();
-            _con = _iconfiguration["ConnectionStrings:DataAccessConnection"];
+            _con = _iconfiguration["ConnectionStrings:DataAccessConnection"]!;
         }
         public static IDbConnection Connection
         {
@@ -38,52 +38,110 @@ namespace Infrastructure.Repositories
         }
         public async Task<Responce> UserInsert(UserInsert userInsert)
         {
-            Responce response = new();
 
-            using (IDbConnection db = Connection)
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryAsync<Responce>("[dbo].[uspUserInsert]", new
             {
-                var result = await db.QueryAsync<Responce>("[dbo].[uspUserInsert]", new
-                {
-                    userInsert.FirstName,
-                    userInsert.LastName,
-                    userInsert.Email,
-                    userInsert.ContactNo,
-                    userInsert.Address,
-                    userInsert.HospitalName,
-                    userInsert.RoleID,
-                    userInsert.ZipCode,
-                    userInsert.Gender,
-                    userInsert.PasswordHash,
-                    userInsert.PasswordSalt,
-                    userInsert.CreatedBy
-                }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+                userInsert.FirstName,
+                userInsert.LastName,
+                userInsert.Email,
+                userInsert.ContactNo,
+                userInsert.Address,
+                userInsert.HospitalName,
+                userInsert.RoleID,
+                userInsert.ZipCode,
+                userInsert.Gender,
+                userInsert.PasswordHash,
+                userInsert.PasswordSalt,
+                userInsert.CreatedBy
+            }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
-                response = result.FirstOrDefault();
-            }
-            return response;
+            Responce? response = result.FirstOrDefault();
+
+            return response!;
         }
 
         public async Task<ClsResponse<User>> UserList(JqueryDataTable jqueryDataTable)
         {
-            ClsResponse<User> responce = new();
-            using (IDbConnection db = Connection)
-            {
-                var result = await db.QueryMultipleAsync("[dbo].[uspUserGetList]",new
-                {
-                    jqueryDataTable.Start,
-                    jqueryDataTable.SortCol,
-                    jqueryDataTable.PageSize,
-                    jqueryDataTable.SearchKey
-                },commandType: CommandType.StoredProcedure);
 
-                responce = result.Read<ClsResponse<User>>().FirstOrDefault();
-                if (responce.Status)
-                {
-                    responce.Data = result.Read<User>().ToList();
-                    responce.TotalRecords = result.Read<int>().FirstOrDefault();
-                }
-                return responce;
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryMultipleAsync("[dbo].[uspUserGetList]", new
+            {
+                jqueryDataTable.Start,
+                jqueryDataTable.SortCol,
+                jqueryDataTable.PageSize,
+                jqueryDataTable.SearchKey
+            }, commandType: CommandType.StoredProcedure);
+
+            ClsResponse<User>? responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+            if (responce!.Status)
+            {
+                responce.Data = result.Read<User>().ToList();
+                responce.TotalRecords = result.Read<int>().FirstOrDefault();
             }
+            return responce;
+
+
+        }
+
+        public async Task<Responce> UserUpdate(UserUpdate userUpdate)
+        {
+
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryAsync<Responce>("", new
+            {
+                userUpdate.FirstName,
+                userUpdate.LastName,
+                userUpdate.Email,
+                userUpdate.Address,
+                userUpdate.HospitalName,
+                userUpdate.UserId,
+                userUpdate.Gender,
+                userUpdate.ContactNo,
+                userUpdate.RoleID,
+                userUpdate.ZipCode,
+
+            }, commandType: CommandType.StoredProcedure);
+            Responce? responce = result.FirstOrDefault();
+
+            return responce!;
+        }
+
+        public async Task<ClsResponse<User>> UserGet(string UserId)
+        {
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryMultipleAsync("", new
+            {
+                UserId
+            }, commandType: CommandType.StoredProcedure);
+
+            ClsResponse<User>? responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+
+            if (responce!.Status)
+            {
+                responce.Data = result.Read<User>().ToList();
+               
+            }
+            return responce;
+
+        }
+        public async Task<Responce> UserDelete(string UserId)
+        {
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryAsync("", new
+            {
+                UserId
+            }, commandType: CommandType.StoredProcedure);
+
+            Responce? responce = result.FirstOrDefault();
+
+           
+            return responce!;
 
         }
     }

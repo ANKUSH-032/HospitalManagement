@@ -36,7 +36,7 @@ namespace HospitalManagement.Controllers
 
                 return res.Status ? StatusCode(StatusCodes.Status201Created, res) : StatusCode(StatusCodes.Status409Conflict, res);
             }
-            catch (Exception ex)
+            catch
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
@@ -50,10 +50,54 @@ namespace HospitalManagement.Controllers
                 var res = await _userRepository.UserList(userList);
                 return res.Status ? StatusCode(StatusCodes.Status200OK, res) : StatusCode(StatusCodes.Status500InternalServerError, res);
             }
-            catch (Exception ex)
+            catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
             }
         }
+
+        [HttpPost, Route("update")]
+        public async Task<IActionResult> UserUpdate([FromBody] UserUpdate userUpdate)
+        {
+            try
+            {
+                var responce = await _userRepository.UserUpdate(userUpdate);
+
+                return responce.Status ? StatusCode(StatusCodes.Status200OK): StatusCode(StatusCodes.Status400BadRequest, responce);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
+            }
+        }
+        [HttpGet,Route("get")]
+
+        public async Task<IActionResult> UserGet(string UserId)
+        {
+            try
+            {
+                var responce = await _userRepository.UserGet(UserId); 
+                return responce.Status ? StatusCode(StatusCodes.Status200OK,responce) : StatusCode(StatusCodes.Status400BadRequest,responce);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
+            }
+        }
+        [HttpDelete, Route("delete")]
+        public async Task<IActionResult> UserDelete(string UserId)
+        {
+            try
+            {
+                var responce = await _userRepository.UserDelete(UserId);
+                return responce.Status ? StatusCode(StatusCodes.Status200OK,responce) : StatusCode(StatusCodes.Status400BadRequest,responce);
+            }
+            catch 
+            {
+
+                return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
+            }
+        }
+
     }
 }
