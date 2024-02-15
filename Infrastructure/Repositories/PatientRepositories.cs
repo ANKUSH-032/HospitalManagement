@@ -1,6 +1,4 @@
-﻿
-using Azure;
-using Dapper;
+﻿using Dapper;
 using HospitalManagement.Core.Interface;
 using HospitalManagement.Core.Model;
 using HospotalManagement.Generic.Helper;
@@ -15,12 +13,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-
-    public class UserRepositories : IUserInterface
+    public class PatientRepositories : IPatientRepositories
     {
         private static string _con = string.Empty;
         private static IConfigurationRoot? _iconfiguration;
-        public UserRepositories()
+        public PatientRepositories()
         {
 
             var builder = new ConfigurationBuilder()
@@ -36,25 +33,25 @@ namespace Infrastructure.Repositories
                 return new SqlConnection(_con);
             }
         }
-        public async Task<Responce> UserInsert(UserInsert userInsert)
+        public async Task<Responce> PatientInsert(PatientsInsert patientsInsert)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserInsert]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspPatientInsert]", new
             {
-                userInsert.FirstName,
-                userInsert.LastName,
-                userInsert.Email,
-                userInsert.ContactNo,
-                userInsert.Address,
-                userInsert.HospitalName,
-                userInsert.RoleID,
-                userInsert.ZipCode,
-                userInsert.Gender,
-                userInsert.PasswordHash,
-                userInsert.PasswordSalt,
-                userInsert.CreatedBy
+                patientsInsert.FirstName,
+                patientsInsert.LastName,
+                patientsInsert.Email,
+                patientsInsert.ContactNo,
+                patientsInsert.Address,
+                patientsInsert.HospitalName,
+              //  patientsInsert.RoleID,
+                patientsInsert.ZipCode,
+                patientsInsert.Gender,
+                patientsInsert.PasswordHash,
+                patientsInsert.PasswordSalt,
+                patientsInsert.CreatedBy
             }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
             Responce? response = result.FirstOrDefault();
@@ -62,12 +59,12 @@ namespace Infrastructure.Repositories
             return response!;
         }
 
-        public async Task<ClsResponse<User>> UserList(JqueryDataTable jqueryDataTable)
+        public async Task<ClsResponse<User>> PatientList(JqueryDataTable jqueryDataTable)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("[dbo].[uspUserGetList]", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspPatientGetList]", new
             {
                 jqueryDataTable.Start,
                 jqueryDataTable.SortCol,
@@ -86,22 +83,22 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task<Responce> UserUpdate(UserUpdate userUpdate)
+        public async Task<Responce> PatientUpdate(PatinetsUpdate patinetsUpdate)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserUpdate]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspPatinetUpdate]", new
             {
-                userUpdate.FirstName,
-                userUpdate.LastName,
-                userUpdate.Email,
-                userUpdate.Address,
-                userUpdate.HospitalName,
-                userUpdate.UserId,
-                userUpdate.Gender,
-                userUpdate.ContactNo,
-                userUpdate.ZipCode,
+                patinetsUpdate.LastName,
+                patinetsUpdate.FirstName,
+                patinetsUpdate.Email,
+                patinetsUpdate.Address,
+                patinetsUpdate.HospitalName,
+                patinetsUpdate.UserId,
+                patinetsUpdate.Gender,
+                patinetsUpdate.ContactNo,
+                patinetsUpdate.ZipCode,
 
             }, commandType: CommandType.StoredProcedure);
             Responce? responce = result.FirstOrDefault();
@@ -109,11 +106,11 @@ namespace Infrastructure.Repositories
             return responce!;
         }
 
-        public async Task<ClsResponse<User>> UserGet(string UserId)
+        public async Task<ClsResponse<User>> PatinetGet(string UserId)
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("[dbo].[uspUserGetDetails]", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspPatientGetDetails]", new
             {
                 UserId
             }, commandType: CommandType.StoredProcedure);
@@ -123,25 +120,26 @@ namespace Infrastructure.Repositories
             if (responce!.Status)
             {
                 responce.Data = result.Read<User>().ToList();
-               
+
             }
             return responce;
 
         }
-        public async Task<Responce> UserDelete(string UserId)
+        public async Task<Responce> PatientDelete(string UserId)
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserDelete]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspPatentDelete]", new
             {
                 UserId
             }, commandType: CommandType.StoredProcedure);
 
             Responce? responce = result.FirstOrDefault();
 
-           
+
             return responce!;
 
         }
+
     }
 }

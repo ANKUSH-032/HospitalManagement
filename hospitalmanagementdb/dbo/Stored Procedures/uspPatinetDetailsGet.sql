@@ -1,5 +1,5 @@
 ﻿  
-CREATE PROC [dbo].[uspUserDetailsGet]  
+CREATE PROC [dbo].[uspPatinetDetailsGet]  
 (                  
  @UserId VARCHAR(50) = NULL,                   
  @Email VARCHAR(150) = NULL                  
@@ -18,18 +18,18 @@ BEGIN
   END                  
   ELSE                   
   BEGIN                
-   IF EXISTS(SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE (UserId= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 0)                
+   IF EXISTS(SELECT 1 FROM [dbo].[tblPatinets] WITH(NOLOCK) WHERE ([PatinetId]= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 0)                
    BEGIN                
     SELECT    
-     U.[UserId],                
+     U.[PatinetId],                
      [Email],                
      U.[PasswordHash],                
      U.[PasswordSalt],                
      ISNULL([FirstName],'') AS [Name],                             
     U.[RoleId] AS [Role]                 
-    FROM [dbo].[tblUsers] U WITH(NOLOCK)                
+    FROM [dbo].[tblPatinets] U WITH(NOLOCK)                
    -- INNER JOIN   [dbo].[tblMasterRole] R WITH(NOLOCK) ON U.[RoleId] = R.[RoleId]                         
-    WHERE (U.UserId=@UserId OR U.Email = @Email) --AND ISNULL(U.Active, 1) = 1                
+    WHERE (U.[PatinetId]=@UserId OR U.Email = @Email) --AND ISNULL(U.Active, 1) = 1                
                  
     SET @Status=1;                
     SET @Msg='Success';              
@@ -38,9 +38,9 @@ BEGIN
    END   
    ELSE                
    BEGIN                
-    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE (UserId= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 0 )                
+    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblPatinets] WITH(NOLOCK) WHERE ([PatinetId]= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 0 )                
     SELECT 'UserNotRegister' AS [Name]   
-    ELSE IF EXISTS (SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE (UserId= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 1 )                
+    ELSE IF EXISTS (SELECT 1 FROM [dbo].[tblPatinets] WITH(NOLOCK) WHERE ([PatinetId]= TRIM(@UserId) OR Email = TRIM(@Email)) AND IsDeleted = 1 )                
     SELECT 'DELETED' AS [Name]  
     SET @Status=0;                
     SET @Msg='Failure';                

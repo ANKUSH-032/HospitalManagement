@@ -3,36 +3,33 @@ using HospitalManagement.Core.Model;
 using HospotalManagement.Generic.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace HospitalManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class PatientController : ControllerBase
     {
-        private readonly IUserInterface _userRepository;
         private readonly IConfiguration _configuration;
-        public UserController(IUserInterface userRepository, IConfiguration configuration)
+        private readonly IPatientRepositories _patinetRepositories;
+        public PatientController(IPatientRepositories patinetRepositories, IConfiguration configuration)
         {
-            _userRepository = userRepository;
+            _patinetRepositories = patinetRepositories;
             _configuration = configuration;
 
         }
         [HttpPost, Route("insert")]
-        public async Task<IActionResult> UserInsert([FromBody] UserInsert userInsert)
+        public async Task<IActionResult> PatientInsert([FromBody] PatientsInsert patientsInsert)
         {
 
 
             try
             {
-                Authenticates.CreatePasswordHash(userInsert.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                userInsert.PasswordHash = passwordHash;
-                userInsert.PasswordSalt = passwordSalt;
+                Authenticates.CreatePasswordHash(patientsInsert.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                patientsInsert.PasswordHash = passwordHash;
+                patientsInsert.PasswordSalt = passwordSalt;           
 
-                var res = await _userRepository.UserInsert(userInsert);
+                var res = await _patinetRepositories.PatientInsert(patientsInsert);
 
                 return res.Status ? StatusCode(StatusCodes.Status201Created, res) : StatusCode(StatusCodes.Status409Conflict, res);
             }
@@ -42,12 +39,12 @@ namespace HospitalManagement.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
             }
         }
-        [HttpPost,Route("list")]
-        public async Task<IActionResult> UserList([FromBody] JqueryDataTable userList)
+        [HttpPost, Route("list")]
+        public async Task<IActionResult> PatientList([FromBody] JqueryDataTable patinetList)
         {
             try
             {
-                var res = await _userRepository.UserList(userList);
+                var res = await _patinetRepositories.PatientList(patinetList);
                 return res.Status ? StatusCode(StatusCodes.Status200OK, res) : StatusCode(StatusCodes.Status500InternalServerError, res);
             }
             catch
@@ -57,11 +54,11 @@ namespace HospitalManagement.Controllers
         }
 
         [HttpPost, Route("update")]
-        public async Task<IActionResult> UserUpdate([FromBody] UserUpdate userUpdate)
+        public async Task<IActionResult> PatientUpdate([FromBody] PatinetsUpdate patinetsUpdate)
         {
             try
             {
-                var responce = await _userRepository.UserUpdate(userUpdate);
+                var responce = await _patinetRepositories.PatientUpdate(patinetsUpdate);
 
                 return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
             }
@@ -70,14 +67,14 @@ namespace HospitalManagement.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
             }
         }
-        [HttpGet,Route("get")]
+        [HttpGet, Route("get")]
 
-        public async Task<IActionResult> UserGet(string UserId)
+        public async Task<IActionResult> PatinetGet(string patient)
         {
             try
             {
-                var responce = await _userRepository.UserGet(UserId); 
-                return responce.Status ? StatusCode(StatusCodes.Status200OK,responce) : StatusCode(StatusCodes.Status400BadRequest,responce);
+                var responce = await _patinetRepositories.PatinetGet(patient);
+                return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
             }
             catch
             {
@@ -85,14 +82,14 @@ namespace HospitalManagement.Controllers
             }
         }
         [HttpDelete, Route("delete")]
-        public async Task<IActionResult> UserDelete(string UserId)
+        public async Task<IActionResult> PatientDelete(string patient)
         {
             try
             {
-                var responce = await _userRepository.UserDelete(UserId);
-                return responce.Status ? StatusCode(StatusCodes.Status200OK,responce) : StatusCode(StatusCodes.Status400BadRequest,responce);
+                var responce = await _patinetRepositories.PatientDelete(patient);
+                return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
             }
-            catch 
+            catch
             {
 
                 return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
