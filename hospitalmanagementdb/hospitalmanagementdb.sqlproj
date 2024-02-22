@@ -82,5 +82,12 @@
     <Build Include="dbo\Stored Procedures\uspPatientGetList.sql" />
     <Build Include="dbo\Stored Procedures\uspPatientGetDetails.sql" />
     <Build Include="dbo\Stored Procedures\uspPatentDelete.sql" />
+    <Build Include="dbo\Tables\tblDoctor.sql" />
+    <Build Include="dbo\Stored Procedures\uspDoctorUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\uspDoctorInsert.sql" />
+    <Build Include="dbo\Stored Procedures\uspDoctorGetList.sql" />
+    <Build Include="dbo\Stored Procedures\uspDoctorGetDetails.sql" />
+    <Build Include="dbo\Stored Procedures\uspDoctorDelete.sql" />
+    <Build Include="dbo\Stored Procedures\uspDocotrInsert.sql" />
   </ItemGroup>
 </Project>

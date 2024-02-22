@@ -100,6 +100,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ValidationFilter>();
 builder.Services.AddScoped<IUserInterface, UserRepositories>();
+builder.Services.AddScoped<IDoctorRepositories, DoctorRepositories>();
+builder.Services.AddScoped<IPatientRepositories, PatientRepositories>();
 
 //builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
 

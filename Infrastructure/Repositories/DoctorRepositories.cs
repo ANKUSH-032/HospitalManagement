@@ -1,6 +1,4 @@
-﻿
-using Azure;
-using Dapper;
+﻿using Dapper;
 using HospitalManagement.Core.Interface;
 using HospitalManagement.Core.Model;
 using HospotalManagement.Generic.Helper;
@@ -15,12 +13,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-
-    public class UserRepositories : IUserInterface
+    public class DoctorRepositories : IDoctorRepositories
     {
         private static string _con = string.Empty;
         private static IConfigurationRoot? _iconfiguration;
-        public UserRepositories()
+        public DoctorRepositories()
         {
 
             var builder = new ConfigurationBuilder()
@@ -36,17 +33,17 @@ namespace Infrastructure.Repositories
                 return new SqlConnection(_con);
             }
         }
-        public async Task<Responce> UserInsert(UserInsert userInsert)
+        public async Task<Responce> DoctorInsert(DoctorInsert userInsert)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserInsert]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspDoctorInsert]", new
             {
                 userInsert.FirstName,
                 userInsert.LastName,
                 userInsert.Email,
-                userInsert.ContactNo,
+                userInsert.ContactNo,   
                 userInsert.Address,
                 userInsert.HospitalName,
                 userInsert.RoleID,
@@ -62,12 +59,12 @@ namespace Infrastructure.Repositories
             return response!;
         }
 
-        public async Task<ClsResponse<UserList>> UserList(JqueryDataTable jqueryDataTable)
+        public async Task<ClsResponse<DoctorList>> DoctorList(JqueryDataTable jqueryDataTable)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("[dbo].[uspUserGetList]", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspDoctorGetList]", new
             {
                 jqueryDataTable.Start,
                 jqueryDataTable.SortCol,
@@ -75,10 +72,10 @@ namespace Infrastructure.Repositories
                 jqueryDataTable.SearchKey
             }, commandType: CommandType.StoredProcedure);
 
-            ClsResponse<UserList>? responce = result.Read<ClsResponse<UserList>>().FirstOrDefault();
+            ClsResponse<DoctorList>? responce = result.Read<ClsResponse<DoctorList>>().FirstOrDefault();
             if (responce!.Status)
             {
-                responce.Data = result.Read<UserList>().ToList();
+                responce.Data = result.Read<DoctorList>().ToList();
                 responce.TotalRecords = result.Read<int>().FirstOrDefault();
             }
             return responce;
@@ -86,19 +83,19 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task<Responce> UserUpdate(UserUpdate userUpdate)
+        public async Task<Responce> DoctorUpdate(DoctorUpdate userUpdate)
         {
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserUpdate]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspDoctorUpdate]", new
             {
                 userUpdate.FirstName,
                 userUpdate.LastName,
                 userUpdate.Email,
                 userUpdate.Address,
                 userUpdate.HospitalName,
-                userUpdate.UserId,
+                userUpdate.DoctorId,
                 userUpdate.Gender,
                 userUpdate.ContactNo,
                 userUpdate.ZipCode,
@@ -109,37 +106,37 @@ namespace Infrastructure.Repositories
             return responce!;
         }
 
-        public async Task<ClsResponse<User>> UserGet(string UserId)
+        public async Task<ClsResponse<Doctor>> DoctorGet(string DoctorId)
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("[dbo].[uspUserGetDetails]", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspDoctorGetDetails]", new
             {
-                UserId
+                DoctorId 
             }, commandType: CommandType.StoredProcedure);
 
-            ClsResponse<User>? responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+            ClsResponse<Doctor>? responce = result.Read<ClsResponse<Doctor>>().FirstOrDefault();
 
             if (responce!.Status)
             {
-                responce.Data = result.Read<User>().ToList();
-               
+                responce.Data = result.Read<Doctor>().ToList();
+
             }
             return responce;
 
         }
-        public async Task<Responce> UserDelete(string UserId)
+        public async Task<Responce> DoctorDelete(string DoctorId)
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspUserDelete]", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspDoctorDelete]", new
             {
-                UserId
+                DoctorId
             }, commandType: CommandType.StoredProcedure);
 
             Responce? responce = result.FirstOrDefault();
 
-           
+
             return responce!;
 
         }

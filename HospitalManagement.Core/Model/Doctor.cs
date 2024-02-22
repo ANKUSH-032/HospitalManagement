@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace HospitalManagement.Core.Model
 {
-    public class User
+    public class Doctor
     {
         #region Entity Properties
 
 
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-      
+
         public string? FirstName { get; set; }
 
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-        
+
         public string? LastName { get; set; }
 
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? ContactNo { get; set; }
 
         [Required, StringLength(150, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-      
+
         public string? Email { get; set; }
 
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
@@ -43,7 +43,7 @@ namespace HospitalManagement.Core.Model
         #region Helper Properties
         #endregion Helper Properties
     }
-    public class UserInsert : User
+    public class DoctorInsert : Doctor
     {
         public string? Password { get; set; }
         public string? CreatedBy { get; set; }
@@ -55,15 +55,15 @@ namespace HospitalManagement.Core.Model
     }
 
 
-    public class UserUpdate : User
+    public class DoctorUpdate : Doctor
     {
         [StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-        public string? UserId { get; set; }
+        public string? DoctorId { get; set; }
         public string? UpdatedBy { get; set; }
     }
 
-   
-    public class UserGetDetails : User
+
+    public class DoctorGetDetails : Doctor
     {
         [StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? UserId { get; set; }
@@ -73,7 +73,7 @@ namespace HospitalManagement.Core.Model
     }
 
 
-    public class DeleteUser
+    public class UserDoctor
     {
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? UserId { get; set; }
@@ -81,12 +81,12 @@ namespace HospitalManagement.Core.Model
         public string? DeletedBy { get; set; }
 
     }
-    public class GetUser
+    public class GetDoctor
     {
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? UserId { get; set; }
     }
-    public class UserList
+    public class DoctorList
     {
         #region Entity Properties
         public string? UserId { get; set; }
