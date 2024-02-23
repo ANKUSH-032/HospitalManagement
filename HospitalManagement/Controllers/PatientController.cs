@@ -69,11 +69,11 @@ namespace HospitalManagement.Controllers
         }
         [HttpGet, Route("get")]
 
-        public async Task<IActionResult> PatinetGet(string patient)
+        public async Task<IActionResult> PatinetGet(string patientId)
         {
             try
             {
-                var responce = await _patinetRepositories.PatinetGet(patient);
+                var responce = await _patinetRepositories.PatinetGet(patientId);
                 return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
             }
             catch
@@ -82,11 +82,11 @@ namespace HospitalManagement.Controllers
             }
         }
         [HttpDelete, Route("delete")]
-        public async Task<IActionResult> PatientDelete(string patient)
+        public async Task<IActionResult> PatientDelete(string patinetId)
         {
             try
             {
-                var responce = await _patinetRepositories.PatientDelete(patient);
+                var responce = await _patinetRepositories.PatientDelete(patinetId);
                 return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
             }
             catch

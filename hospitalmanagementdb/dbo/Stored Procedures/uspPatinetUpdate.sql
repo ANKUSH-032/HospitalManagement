@@ -1,6 +1,6 @@
 ﻿  
 CREATE PROCEDURE [dbo].[uspPatinetUpdate]    
- @PatinetId VARCHAR(50),  
+  @PatientId VARCHAR(50),  
  @FirstName VARCHAR(50),   
  @LastName VARCHAR(50),   
  @ContactNo VARCHAR(15),  
@@ -10,7 +10,7 @@ CREATE PROCEDURE [dbo].[uspPatinetUpdate]
  @Zipcode VARCHAR(10),  
  @Gender VARCHAR(10),  
  @UpdatedBy VARCHAR(50) = null  
-   
+  
 AS  
 BEGIN    
 SET NOCOUNT ON;  
@@ -22,15 +22,15 @@ SET NOCOUNT ON;
  BEGIN TRY       
  BEGIN   
   
-  IF EXISTS( SELECT 1 FROM [dbo].[tblPatinets] WITH(NOLOCK) WHERE Email = @PatinetId AND IsDeleted = 1)  
+  IF EXISTS( SELECT 1 FROM [dbo].[tblPatient] WITH(NOLOCK) WHERE Email = @PatientId AND IsDeleted = 1)  
   BEGIN  
   SELECT 0 AS [Status], 'User is not register in this system' AS [Message]  
   RETURN  
   END  
   
-  IF  EXISTS( SELECT 1 FROM [dbo].[tblPatinets] WITH(NOLOCK) WHERE PatinetId = @PatinetId AND IsDeleted=0)  
+  IF  EXISTS( SELECT 1 FROM [dbo].[tblPatient] WITH(NOLOCK) WHERE  [PatientId] = @PatientId AND IsDeleted=0)  
   BEGIN   
-   Update [dbo].[tblPatinets]  
+   Update [dbo].[tblPatient]  
    SET  
       
       FirstName = @FirstName,  
@@ -43,7 +43,7 @@ SET NOCOUNT ON;
                Gender = @Gender,  
       UpdatedOn = GETUTCDATE(),   
       UpdatedBy = @UpdatedBy  
-      WHERE PatinetId = @PatinetId AND IsDeleted=0
+      WHERE  [PatientId] = @PatientId AND IsDeleted=0
    SET @Status = 1;    
    SET @Message = 'Record updated successfully.';  
   END  
@@ -62,5 +62,5 @@ SET NOCOUNT ON;
   RAISERROR(@Message, @ErrorSeverity, @ErrorState);    
  END CATCH    
   
- SELECT @Status [Status], @Message [Message] , @PatinetId [Data]    
+ SELECT @Status [Status], @Message [Message] , @PatientId [Data]    
 END

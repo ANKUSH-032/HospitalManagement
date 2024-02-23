@@ -11,9 +11,9 @@ namespace HospitalManagement.Core.Interface
     public interface IPatientRepositories
     {
         Task<Responce> PatientInsert(PatientsInsert patientsInsert);
-        Task<ClsResponse<User>> PatientList(JqueryDataTable jqueryDataTable);
+        Task<ClsResponse<PatientsList>> PatientList(JqueryDataTable jqueryDataTable);
         Task<Responce> PatientUpdate(PatinetsUpdate patinetsUpdate);
-        Task<ClsResponse<User>> PatinetGet(string UserId);
+        Task<ClsResponse<PatientsList>> PatinetGet(string UserId);
         Task<Responce> PatientDelete(string UserId);
     }
 }

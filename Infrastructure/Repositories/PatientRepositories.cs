@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
                 patientsInsert.ContactNo,
                 patientsInsert.Address,
                 patientsInsert.HospitalName,
-              //  patientsInsert.RoleID,
+              patientsInsert.RoleID,
                 patientsInsert.ZipCode,
                 patientsInsert.Gender,
                 patientsInsert.PasswordHash,
@@ -59,7 +59,7 @@ namespace Infrastructure.Repositories
             return response!;
         }
 
-        public async Task<ClsResponse<User>> PatientList(JqueryDataTable jqueryDataTable)
+        public async Task<ClsResponse<PatientsList>> PatientList(JqueryDataTable jqueryDataTable)
         {
 
             using IDbConnection? db = Connection;
@@ -72,10 +72,10 @@ namespace Infrastructure.Repositories
                 jqueryDataTable.SearchKey
             }, commandType: CommandType.StoredProcedure);
 
-            ClsResponse<User>? responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+            ClsResponse<PatientsList>? responce = result.Read<ClsResponse<PatientsList>>().FirstOrDefault();
             if (responce!.Status)
             {
-                responce.Data = result.Read<User>().ToList();
+                responce.Data = result.Read<PatientsList>().ToList();
                 responce.TotalRecords = result.Read<int>().FirstOrDefault();
             }
             return responce;
@@ -95,10 +95,11 @@ namespace Infrastructure.Repositories
                 patinetsUpdate.Email,
                 patinetsUpdate.Address,
                 patinetsUpdate.HospitalName,
-                patinetsUpdate.UserId,
+                patinetsUpdate. PatientId,
                 patinetsUpdate.Gender,
                 patinetsUpdate.ContactNo,
                 patinetsUpdate.ZipCode,
+                patinetsUpdate.UpdatedBy
 
             }, commandType: CommandType.StoredProcedure);
             Responce? responce = result.FirstOrDefault();
@@ -106,32 +107,32 @@ namespace Infrastructure.Repositories
             return responce!;
         }
 
-        public async Task<ClsResponse<User>> PatinetGet(string UserId)
+        public async Task<ClsResponse<PatientsList>> PatinetGet(string PatientId)
         {
             using IDbConnection? db = Connection;
 
             var result = await db.QueryMultipleAsync("[dbo].[uspPatientGetDetails]", new
             {
-                UserId
+                PatientId
             }, commandType: CommandType.StoredProcedure);
 
-            ClsResponse<User>? responce = result.Read<ClsResponse<User>>().FirstOrDefault();
+            ClsResponse<PatientsList>? responce = result.Read<ClsResponse<PatientsList>>().FirstOrDefault();
 
             if (responce!.Status)
             {
-                responce.Data = result.Read<User>().ToList();
+                responce.Data = result.Read<PatientsList>().ToList();
 
             }
             return responce;
 
         }
-        public async Task<Responce> PatientDelete(string UserId)
+        public async Task<Responce> PatientDelete(string PatientId)
         {
             using IDbConnection? db = Connection;
 
             var result = await db.QueryAsync<Responce>("[dbo].[uspPatentDelete]", new
             {
-                UserId
+                PatientId
             }, commandType: CommandType.StoredProcedure);
 
             Responce? responce = result.FirstOrDefault();

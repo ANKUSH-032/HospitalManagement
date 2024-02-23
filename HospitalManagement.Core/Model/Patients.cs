@@ -27,8 +27,8 @@ namespace HospitalManagement.Core.Model
 
         public string? Email { get; set; }
 
-       // [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-       // public string? RoleID { get; set; }
+        [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
+        public string? RoleID { get; set; }
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? Address { get; set; }
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
@@ -55,10 +55,27 @@ namespace HospitalManagement.Core.Model
     public class PatinetsUpdate : Patients
     {
         [StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-        public string? UserId { get; set; }
+        public string? PatientId { get; set; }
         public string? UpdatedBy { get; set; } = null;
     }
-    public class PatientsGet
+    public class PatientsList
     {
+        #region Entity Properties
+        public string? PatientId { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? ContactNo { get; set; }
+        public string? Email { get; set; }
+        public string? RoleID { get; set; }
+        public string? Address { get; set; }
+        public string? HospitalName { get; set; }
+        public string? ZipCode { get; set; }
+        public string? Gender { get; set; }
+
+
+        #endregion Entity Properties
+
+        #region Helper Properties
+        #endregion Helper Properties
     }
 }

@@ -26,11 +26,19 @@ SET NOCOUNT ON;
 
 		IF EXISTS( SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE Email = @Email AND IsDeleted = 0)
 		BEGIN
-		SELECT 0 AS [Status], 'Record with same email is already existed.' AS [Message]
+		SELECT 0 AS [Status], 'Email is already existed.' AS [Message]
 		RETURN
 		END
+		IF EXISTS( SELECT 1 FROM [dbo].[tblPatient] WITH(NOLOCK) WHERE Email = @Email AND IsDeleted = 0)
+		BEGIN
+		SELECT 0 AS [Status], 'Email is already existed.' AS [Message]
+		RETURN
+		END
+		
 
-		IF NOT EXISTS( SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE UserId = @PatientId AND IsDeleted=0)
+
+
+		IF NOT EXISTS( SELECT 1 FROM [dbo].[tblPatient] WITH(NOLOCK) WHERE PatientId = @PatientId AND IsDeleted=0)
 		BEGIN 
 			INSERT INTO [dbo].[tblPatient]
 			(
@@ -71,29 +79,7 @@ SET NOCOUNT ON;
 			   @CreatedBy,
 			   0
 			)
-		
-		
-			INSERT INTO [dbo].[tblModuleMapping]
-			(
-			 UserId,
-			 ModuleId,
-			 IsView, 
-			 IsAdd, 
-			 IsEdit, 
-			 IsDelete,
-			 CreatedBy, 
-			 CreatedOn
-			 
-			)
-			 SELECT @PatientId,
-			 ModuleId, 
-			 IsView,
-			 IsAdd, 
-			 IsEdit, 
-			 IsDelete, 
-			 @CreatedBy,
-			 GETUTCDATE()
-			 FROM [dbo].[tblDefaultRoleAccess] WITH(NOLOCK)   WHERE RoleId=@RoleId
+	
 			 
 			SET @Status = 1;  
 			SET @Message = 'Record added successfully.';

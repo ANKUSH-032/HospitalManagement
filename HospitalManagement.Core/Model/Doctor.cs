@@ -89,7 +89,7 @@ namespace HospitalManagement.Core.Model
     public class DoctorList
     {
         #region Entity Properties
-        public string? UserId { get; set; }
+        public string? DoctorId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ContactNo { get; set; }
