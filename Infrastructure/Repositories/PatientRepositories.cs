@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("[dbo].[uspPatientInsert]", new
+                var result = await db.QueryAsync<Responce>("[dbo].[uspPatientInsert]", new
             {
                 patientsInsert.FirstName,
                 patientsInsert.LastName,
@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
                 patientsInsert.ContactNo,
                 patientsInsert.Address,
                 patientsInsert.HospitalName,
-              patientsInsert.RoleID,
+                RoleID="patient",
                 patientsInsert.ZipCode,
                 patientsInsert.Gender,
                 patientsInsert.PasswordHash,

@@ -58,7 +58,7 @@ namespace HospitalManagement.Controllers
 
         [HttpPost, Route("update")]
         public async Task<IActionResult> UserUpdate([FromBody] UserUpdate userUpdate)
-        {
+        {       
             try
             {
                 var responce = await _userRepository.UserUpdate(userUpdate);

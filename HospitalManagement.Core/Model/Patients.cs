@@ -27,8 +27,8 @@ namespace HospitalManagement.Core.Model
 
         public string? Email { get; set; }
 
-        [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
-        public string? RoleID { get; set; }
+        //[Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
+        //public string? RoleID { get; set; }
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]
         public string? Address { get; set; }
         [Required, StringLength(50, ErrorMessage = "{0} must be at least {2} characters long.", MinimumLength = 2)]

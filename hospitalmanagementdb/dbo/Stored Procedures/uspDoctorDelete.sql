@@ -14,13 +14,8 @@ SET NOCOUNT ON;
 	BEGIN TRY     
 	BEGIN 
 
-		IF EXISTS( SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE Email = @DoctorId AND IsDeleted = 1)
-		BEGIN
-		SELECT 0 AS [Status], 'User is not register in this system' AS [Message]
-		RETURN
-		END
 
-		IF  EXISTS( SELECT 1 FROM [dbo].[tblUsers] WITH(NOLOCK) WHERE UserId = @DoctorId AND IsDeleted=0)
+		IF  EXISTS( SELECT 1 FROM [dbo].[tblDoctor] WITH(NOLOCK) WHERE DoctorId = @DoctorId AND IsDeleted=0)
 		BEGIN 
 			Update [dbo].[tblDoctor]
 			SET IsDeleted = 1
