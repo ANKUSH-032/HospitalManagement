@@ -89,5 +89,12 @@
     <Build Include="dbo\Stored Procedures\uspDoctorGetDetails.sql" />
     <Build Include="dbo\Stored Procedures\uspDoctorDelete.sql" />
     <Build Include="dbo\Stored Procedures\uspDocotrInsert.sql" />
+    <Build Include="dbo\Tables\tblAppointment.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentInsert.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentGetListByRole.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentGetList.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentGetDetails.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentDelete.sql" />
   </ItemGroup>
 </Project>

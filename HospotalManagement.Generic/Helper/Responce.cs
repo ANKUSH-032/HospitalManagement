@@ -34,4 +34,14 @@ namespace HospotalManagement.Generic.Helper
         public int? PageSize { get; set; }
         public string? SortCol { get; set; }// = string.Empty;
     }
+
+    public class AppointmentList
+    {
+        public string? SearchKey { get; set; } //= string.Empty;
+        public int? Start { get; set; }
+        public int? PageSize { get; set; }
+        public string? SortCol { get; set; }// = string.Empty;
+        public string? DoctorId { get; set; }
+        public string? PatientId { get; set; }
+    }
 }
