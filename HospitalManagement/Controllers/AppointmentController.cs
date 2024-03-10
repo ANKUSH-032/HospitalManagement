@@ -41,7 +41,7 @@ namespace HospitalManagement.Controllers
         }
         [HttpPost, Route("list")]
         public async Task<IActionResult> AppointmentList([FromBody] JqueryDataTable jqueryDataTable)
-        {
+       {
             try
             {
                 var res = await _appointmentRepositories.AppointmentList(jqueryDataTable);
@@ -95,7 +95,7 @@ namespace HospitalManagement.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
             }
         }
-        [HttpPost, Route("appointment/list")]
+        [HttpPost, Route("list/appointment")]
         public async Task<IActionResult> AppointmentListByRole([FromBody] AppointmentList appointmentList)
         {
             try
@@ -108,6 +108,35 @@ namespace HospitalManagement.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
             }
         }
+        [HttpPost, Route("admin/list")]
+        public async Task<IActionResult> AppointmentListForAdmin([FromBody] JqueryDataTable jqueryDataTable)
+        {
+            try
+            {
+                var res = await _appointmentRepositories.AppointmentListForAdmin(jqueryDataTable);
+                return res.Status ? StatusCode(StatusCodes.Status200OK, res) : StatusCode(StatusCodes.Status500InternalServerError, res);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, MessageHelper.message);
+            }
+        }
+
+        [HttpPatch, Route("update/status")]
+        public async Task<IActionResult> AppointmentSatusUpdate([FromBody] AppointmentAppointmentUpdate appointmentAppointmentUpdate)
+        {
+            try
+            {
+                var responce = await _appointmentRepositories.AppointmentSatusUpdate(appointmentAppointmentUpdate);
+
+                return responce.Status ? StatusCode(StatusCodes.Status200OK, responce) : StatusCode(StatusCodes.Status400BadRequest, responce);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, MessageHelper.message);
+            }
+        }
 
     }
 }
+    

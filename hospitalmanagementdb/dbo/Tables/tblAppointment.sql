@@ -14,6 +14,9 @@
     [DeletedOn]              DATETIME      NULL,
     [DeletedBy]              VARCHAR (50)  NULL,
     [IsDeleted]              BIT           CONSTRAINT [DF_tblAppointment_IsDeleted] DEFAULT ((0)) NOT NULL,
+    [Status]                 BIT           CONSTRAINT [DF_tblAppointment_Status] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_tblAppointment] PRIMARY KEY CLUSTERED ([AppointmentId] ASC)
 );
+
+
 

@@ -40,8 +40,15 @@ namespace Infrastructure.Repositories
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspAppointmentInsert]", new
             {
+                appointmentInsert.DoctorId,
+                appointmentInsert.PatientId,
+                appointmentInsert.AppointmentDescription,
+                appointmentInsert.AppointmentType,
+                appointmentInsert.AppointmentDate,
+                appointmentInsert.AppointmentTime,
+                appointmentInsert.AppointmentTitle,
                 
             }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
@@ -55,7 +62,7 @@ namespace Infrastructure.Repositories
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspAppointmentGetList]", new
             {
                 jqueryDataTable.Start,
                 jqueryDataTable.SortCol,
@@ -67,7 +74,7 @@ namespace Infrastructure.Repositories
             if (responce!.Status)
             {
                 responce.Data = result.Read<AppointmentListDestails>().ToList();
-                responce.TotalRecords = result.Read<int>().FirstOrDefault();
+                //responce.TotalRecords = result.Read<int>().FirstOrDefault();
             }
             return responce;
 
@@ -79,9 +86,16 @@ namespace Infrastructure.Repositories
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspAppointmentUpdate]", new
             {
-               
+                appointmentUpdate.DoctorId,
+                appointmentUpdate.PatientId,
+                appointmentUpdate.AppointmentDescription,
+                appointmentUpdate.AppointmentType,
+                appointmentUpdate.AppointmentDate,
+                appointmentUpdate.AppointmentTime,
+                appointmentUpdate.AppointmentTitle,
+                appointmentUpdate.AppointmentId
 
             }, commandType: CommandType.StoredProcedure);
             Responce? responce = result.FirstOrDefault();
@@ -93,7 +107,7 @@ namespace Infrastructure.Repositories
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspAppointmentGetDetails]", new
             {
                 AppointmentId
             }, commandType: CommandType.StoredProcedure);
@@ -112,12 +126,12 @@ namespace Infrastructure.Repositories
         {
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryAsync<Responce>("", new
+            var result = await db.QueryAsync<Responce>("[dbo].[uspAppointmentDelete]", new
             {
                 AppointmentId
             }, commandType: CommandType.StoredProcedure);
 
-            Responce? responce = result.FirstOrDefault();
+            Responce? responce = result.FirstOrDefault();   
 
 
             return responce!;
@@ -129,7 +143,7 @@ namespace Infrastructure.Repositories
 
             using IDbConnection? db = Connection;
 
-            var result = await db.QueryMultipleAsync("", new
+            var result = await db.QueryMultipleAsync("[dbo].[uspAppointmentGetListByRole]", new
             {
                 appointmentList.Start,
                 appointmentList.SortCol,
@@ -148,6 +162,46 @@ namespace Infrastructure.Repositories
             return responce;
 
 
+        }
+
+        public async Task<ClsResponse<AppointmentAdminListDestails>> AppointmentListForAdmin(JqueryDataTable jqueryDataTable)
+        {
+
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryMultipleAsync("[dbo].[uspAppointmentListForAdmin]", new
+            {
+                jqueryDataTable.Start,
+                jqueryDataTable.SortCol,
+                jqueryDataTable.PageSize,
+                jqueryDataTable.SearchKey
+            }, commandType: CommandType.StoredProcedure);
+
+            ClsResponse<AppointmentAdminListDestails>? responce = result.Read<ClsResponse<AppointmentAdminListDestails>>().FirstOrDefault();
+            if (responce!.Status)
+            {
+                responce.Data = result.Read<AppointmentAdminListDestails>().ToList();
+                responce.TotalRecords = result.Read<int>().FirstOrDefault();
+            }
+            return responce;
+
+
+        }
+
+        public async Task<Responce> AppointmentSatusUpdate(AppointmentAppointmentUpdate appointmentAppointmentUpdate)
+        {
+
+            using IDbConnection? db = Connection;
+
+            var result = await db.QueryAsync<Responce>("[dbo].[uspAppointmentSatusUpdate]", new
+            {
+                appointmentAppointmentUpdate.AppointmentId
+
+
+            }, commandType: CommandType.StoredProcedure);
+            Responce? responce = result.FirstOrDefault();
+
+            return responce!;
         }
     }
 }

@@ -16,6 +16,8 @@ namespace HospitalManagement.Core.Interface
         Task<ClsResponse<AppointmentListDestails>> AppointmentGet(string AppointmentId);
         Task<Responce> AppointmentDelete(string AppointmentId);
         Task<ClsResponse<AppointmentListDestails>> AppointmentListByRole(AppointmentList appointmentList);
+        Task<ClsResponse<AppointmentAdminListDestails>> AppointmentListForAdmin(JqueryDataTable jqueryDataTable);
+        Task<Responce> AppointmentSatusUpdate(AppointmentAppointmentUpdate appointmentAppointmentUpdate);
 
 
     }

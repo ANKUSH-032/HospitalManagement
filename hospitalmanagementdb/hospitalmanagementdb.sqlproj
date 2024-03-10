@@ -96,5 +96,8 @@
     <Build Include="dbo\Stored Procedures\uspAppointmentGetList.sql" />
     <Build Include="dbo\Stored Procedures\uspAppointmentGetDetails.sql" />
     <Build Include="dbo\Stored Procedures\uspAppointmentDelete.sql" />
+    <Build Include="dbo\Stored Procedures\uspMasterList.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentSatusUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\uspAppointmentListForAdmin.sql" />
   </ItemGroup>
 </Project>

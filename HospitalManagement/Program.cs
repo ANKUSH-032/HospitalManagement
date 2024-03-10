@@ -102,6 +102,8 @@ builder.Services.AddScoped<ValidationFilter>();
 builder.Services.AddScoped<IUserInterface, UserRepositories>();
 builder.Services.AddScoped<IDoctorRepositories, DoctorRepositories>();
 builder.Services.AddScoped<IPatientRepositories, PatientRepositories>();
+builder.Services.AddScoped<IAppointmentRepositories, AppointmentRepositories>();
+builder.Services.AddScoped<ICommonRepository, CommonRepository>();
 
 //builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
 
